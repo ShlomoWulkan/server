@@ -10,6 +10,9 @@ export const regionSchema = new Schema({
         type: String,
         required: true
     },
+    AverageCasualtiesPerAttack: {
+        type: Number
+    },
     attacks : [{
         type: Schema.Types.ObjectId,
         ref: "Attacks"

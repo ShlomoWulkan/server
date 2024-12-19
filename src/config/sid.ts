@@ -7,6 +7,8 @@ import { IRegion, Region } from '../models/regions';
 import { ICity, City } from '../models/cities';
 import { IGang, Gang } from '../models/gangs';
 import { Attack } from '../models/attacks';
+import { updateAverageCasualtiesPerRegion } from '../utils/aveageAgrg';
+import { aggregateIncidentTrends } from '../utils/mounthAttacksAgrg';
 
 type GetOrCreateParams<T extends Document> = {
   map: Map<string, mongoose.Types.ObjectId>;
@@ -146,6 +148,9 @@ export const seedDatabase = async () => {
             { $set: { numOfCasualties: totalCasualties } }
         );
         }
+        updateAverageCasualtiesPerRegion();
+        aggregateIncidentTrends();
+        
         await Promise.all([
           Year.findByIdAndUpdate(yearId, { $addToSet: { attacks: attack._id } }),
           AttackType.findByIdAndUpdate(attackTypeId, { $addToSet: { attacks: attack._id } }),
