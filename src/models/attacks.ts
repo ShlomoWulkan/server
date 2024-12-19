@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 
-interface IAttack {
-    iyear: number;
+export interface IAttack extends Document{
+    iyear: string;
     imonth: number;
     iday: number;
     country: string;
@@ -23,8 +23,8 @@ interface IAttack {
 
 export const attackSchema = new Schema({
     iyear: {
-        type: Number,
-        required: true
+        ref: "years",
+        type: Schema.Types.ObjectId
     },
     imonth: {
         type: Number,
@@ -48,11 +48,9 @@ export const attackSchema = new Schema({
     },
     latitude: {
         type: Number,
-        required: true
     },
     longitude: {
         type: Number,
-        required: true
     },
     attacktype1_txt: {
         ref: "attackType",
@@ -60,11 +58,9 @@ export const attackSchema = new Schema({
     },
     targtype1_txt: {
         type: String,
-        required: true
     },
     target1: {
         type: String,
-        required: true
     },
     gname: {
         ref: "gangs",
@@ -92,5 +88,11 @@ export const attackSchema = new Schema({
         default: null
     }
 });
+
+attackSchema.index({ attacktype1_txt: 1 });
+attackSchema.index({ region_txt: 1 });
+attackSchema.index({ iyear: 1 });
+attackSchema.index({ iyear: 1, gname: 1 });
+attackSchema.index({ gname: 1 });
 
 export const Attack = model<IAttack>("Attacks", attackSchema);

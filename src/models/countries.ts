@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-interface ICountry {
+export interface ICountry extends Document{
     name: string;
     attacks: string[];
 }

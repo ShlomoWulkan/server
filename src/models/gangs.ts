@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-interface IGang {
+export interface IGang extends Document{
     name: string;
     attacks: string[];
 }
